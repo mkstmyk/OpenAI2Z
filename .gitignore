@@ -15,3 +15,5 @@ OpenAI*
 production_multi_tile_fix.py
 QUALITY_IMPROVEMENT_SUMMARY.ipynb
 test_*
+
+data_dir/
