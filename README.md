@@ -1,183 +1,183 @@
 # OpenAI to Z Challenge - Checkpoint 1 & 2
 
-Amazon 流域の Sentinel-2 L2A COG (GeoTIFF) を取得し、NDVI 異常域を自動抽出して OpenAI GPT-4o-mini に説明させる考古学リモートセンシングツール。
+A remote sensing tool for archaeology that downloads Sentinel-2 L2A COG (GeoTIFF) data for the Amazon basin, automatically extracts NDVI anomaly regions, and generates archaeological explanations using OpenAI GPT-4o-mini.
 
-## 🚀 機能
+## 🚀 Features
 
-### ✅ 実装済み機能
-- **Sentinel-2 データダウンロード**: AWS S3 からの自動取得
-- **NDVI 計算**: 植生指標の算出と可視化
-- **異常域抽出**: 閾値ベースの自動検出
-- **OpenAI 分析**: GPT-4o-mini による考古学的解釈
-- **Checkpoint 1**: 複数データソース読み込み
-- **Checkpoint 2**: 新規サイト発見（アルゴリズム検出 + 歴史的テキスト + 既知サイト比較）
+### ✅ Implemented Features
+- **Sentinel-2 Data Download**: Automatic retrieval from AWS S3
+- **NDVI Calculation**: Vegetation index computation and visualization
+- **Anomaly Extraction**: Automatic detection based on thresholding
+- **OpenAI Analysis**: Archaeological interpretation using GPT-4o-mini
+- **Checkpoint 1**: Multi-source data ingestion
+- **Checkpoint 2**: New site discovery (algorithmic detection + historical text + known site comparison)
 
-### 🔧 デバッグ機能
-- **OpenAI API スキップ**: デバッグ中にクレジット消費を回避
-- **ダミーデータ生成**: 実データが利用できない場合の代替
-- **段階的実行**: 重い処理のスキップオプション
+### 🔧 Debug Features
+- **Skip OpenAI API**: Avoids credit consumption during debugging
+- **Dummy Data Generation**: Alternative when real data is unavailable
+- **Stepwise Execution**: Option to skip heavy processing
 
-## 📊 データソース状況
+## 📊 Data Source Status
 
-### ✅ 正常動作
-- **Sentinel-2**: AWS S3 からの直接ダウンロード
-- **サンプル考古学データ**: ローカル生成（実データ代替）
-- **サンプル標高データ**: ローカル生成（SRTM代替）
-- **植生データ**: Sentinel-2 派生（GEDI代替）
+### ✅ Working Data Sources
+- **Sentinel-2**: Direct download from AWS S3
+- **Sample Archaeological Data**: Locally generated (as a substitute for real data)
+- **Sample Elevation Data**: Locally generated (as a substitute for SRTM)
+- **Vegetation Data**: Derived from Sentinel-2 (as a substitute for GEDI)
 
-### ⚠️ 制限事項
-- **TerraBrasilis**: URL解決エラー（代替データ使用）
-- **OpenTopography SRTM**: API 404エラー（代替データ使用）
-- **GEDI L2A**: 直接アクセス困難（Sentinel-2派生データ使用）
+### ⚠️ Limitations
+- **TerraBrasilis**: URL resolution error (using alternative data)
+- **OpenTopography SRTM**: API 404 error (using alternative data)
+- **GEDI L2A**: Direct access difficult (using Sentinel-2 derived data)
 
-### 🔄 改善予定
-- **NASA Earthdata API**: より信頼性の高いSRTMデータ
-- **OpenStreetMap**: 考古学サイトの公開データ
-- **UNESCO**: 世界遺産サイトデータ
+### 🔄 Planned Improvements
+- **NASA Earthdata API**: More reliable SRTM data
+- **OpenStreetMap**: Public data for archaeological sites
+- **UNESCO**: World Heritage site data
 
-## 🛠️ セットアップ
+## 🛠️ Setup
 
-### 1. 環境準備
+### 1. Prepare Environment
 ```bash
-# 仮想環境作成
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate  # macOS/Linux
 # venv\Scripts\activate  # Windows
 
-# 依存関係インストール
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. OpenAI API キー設定
+### 2. Set OpenAI API Key
 ```bash
-# 環境変数設定
+# Set environment variable
 export OPENAI_API_KEY="your-api-key-here"
 
-# または .env ファイル作成
+# Or create a .env file
 echo "OPENAI_API_KEY=your-api-key-here" > .env
 ```
 
-### 3. AWS CLI 設定（Sentinel-2 データ用）
+### 3. AWS CLI Setup (for Sentinel-2 data)
 ```bash
-# AWS CLI インストール（未インストールの場合）
+# Install AWS CLI (if not installed)
 pip install awscli
 
-# 設定（認証情報不要 - パブリックデータ）
+# Configure (no credentials needed - public data)
 aws configure set default.s3.signature_version s3v4
 ```
 
-## 🚀 使用方法
+## 🚀 Usage
 
-### 基本実行
+### Basic Execution
 ```bash
 python openai_to_z_checkpoint.py
 ```
 
-### デバッグモード（推奨）
+### Debug Mode (Recommended)
 ```python
-# openai_to_z_checkpoint.py の main() 関数内で
-DEBUG_MODE = True  # OpenAI API スキップ
+# In main() of openai_to_z_checkpoint.py
+DEBUG_MODE = True  # Skip OpenAI API
 ```
 
-### 本番モード
+### Production Mode
 ```python
-# openai_to_z_checkpoint.py の main() 関数内で
-DEBUG_MODE = False  # 実際の OpenAI API 呼び出し
+# In main() of openai_to_z_checkpoint.py
+DEBUG_MODE = False  # Use actual OpenAI API calls
 ```
 
-## 📁 出力ファイル
+## 📁 Output Files
 
-### メイン分析
-- `data_dir/footprints.json`: 検出された異常域
-- `data_dir/ndvi_map.png`: NDVI 可視化
-- `openai_log.json`: OpenAI 分析ログ
+### Main Analysis
+- `data_dir/footprints.json`: Detected anomaly regions
+- `data_dir/ndvi_map.png`: NDVI visualization
+- `openai_log.json`: OpenAI analysis log
 
 ### Checkpoint 1
-- `data_dir/archaeological_sites.geojson`: 考古学サイトデータ
-- `data_dir/srtm_elevation.tif`: 標高データ
-- `data_dir/vegetation_data.json`: 植生データ
+- `data_dir/archaeological_sites.geojson`: Archaeological site data
+- `data_dir/srtm_elevation.tif`: Elevation data
+- `data_dir/vegetation_data.json`: Vegetation data
 
 ### Checkpoint 2
-- `data_dir/checkpoint2_candidates.geojson`: アルゴリズム検出結果
-- `data_dir/historical_extracts.json`: 歴史的テキスト抽出
-- `data_dir/site_comparison.json`: 既知サイト比較結果
+- `data_dir/checkpoint2_candidates.geojson`: Algorithmic detection results
+- `data_dir/historical_extracts.json`: Extracted historical texts
+- `data_dir/site_comparison.json`: Known site comparison results
 
-## 🔍 トラブルシューティング
+## 🔍 Troubleshooting
 
-### よくある問題
+### Common Issues
 
-1. **OpenAI API エラー**
+1. **OpenAI API Error**
    ```bash
-   # 環境変数確認
+   # Check environment variable
    echo $OPENAI_API_KEY
-   
-   # デバッグモードでテスト
+
+   # Test in debug mode
    DEBUG_MODE = True
    ```
 
-2. **Sentinel-2 ダウンロードエラー**
+2. **Sentinel-2 Download Error**
    ```bash
-   # AWS CLI 確認
+   # Check AWS CLI
    aws --version
-   
-   # ネットワーク接続確認
+
+   # Check network connection
    curl -I https://sentinel-s2-l2a.s3.amazonaws.com
    ```
 
-3. **メモリ不足エラー**
+3. **Out of Memory Error**
    ```python
-   # 重い処理をスキップ
+   # Skip heavy processing
    skip_heavy = True
    ```
 
-### データソース問題
+### Data Source Issues
 
-1. **実データが利用できない場合**
-   - 自動的にサンプルデータが生成されます
-   - 処理は継続され、機能テストが可能です
+1. **If Real Data Is Unavailable**
+   - Sample data is generated automatically
+   - Processing continues and feature testing is possible
 
-2. **特定のデータソースが必要な場合**
-   - 手動でデータをダウンロード
-   - `data_dir/` に配置
-   - スクリプトを再実行
+2. **If Specific Data Sources Are Needed**
+   - Download data manually
+   - Place in `data_dir/`
+   - Re-run the script
 
-## 📈 パフォーマンス
+## 📈 Performance
 
-### 実行時間（目安）
-- **デバッグモード**: 2-3分
-- **本番モード**: 5-10分（API呼び出し時間含む）
-- **重い処理スキップ**: 1-2分
+### Typical Runtime
+- **Debug Mode**: 2-3 minutes
+- **Production Mode**: 5-10 minutes (including API calls)
+- **Skip Heavy Processing**: 1-2 minutes
 
-### メモリ使用量
-- **基本処理**: 500MB-1GB
-- **重い処理**: 2-4GB
-- **推奨**: 8GB以上
+### Memory Usage
+- **Basic Processing**: 500MB-1GB
+- **Heavy Processing**: 2-4GB
+- **Recommended**: 8GB or more
 
-## 🎯 Checkpoint 要件対応状況
+## 🎯 Checkpoint Requirements Status
 
 ### Checkpoint 1 ✅
-- [x] 複数の独立データソース読み込み
-- [x] 5つ以上の異常フットプリント生成
-- [x] データセットIDとOpenAIプロンプトのログ
-- [x] 再現可能なスクリプト
+- [x] Ingest multiple independent data sources
+- [x] Generate 5+ anomaly footprints
+- [x] Log dataset IDs and OpenAI prompts
+- [x] Reproducible script
 
 ### Checkpoint 2 ✅
-- [x] アルゴリズム検出（Hough変換）
-- [x] 歴史的テキスト抽出（GPT使用）
-- [x] 既知考古学サイトとの比較
+- [x] Algorithmic detection (Hough transform)
+- [x] Historical text extraction (using GPT)
+- [x] Comparison with known archaeological sites
 
-## 🤝 貢献
+## 🤝 Contributing
 
-1. 実データソースの追加
-2. アルゴリズムの改善
-3. エラーハンドリングの強化
-4. ドキュメントの改善
+1. Add new real data sources
+2. Improve algorithms
+3. Strengthen error handling
+4. Improve documentation
 
-## 📄 ライセンス
+## 📄 License
 
-MIT License - オープンソースプロジェクトとして公開
+MIT License - Open source project
 
-## 🔗 参考資料
+## 🔗 References
 
 - [OpenAI to Z Challenge](https://openai.com/blog/openai-to-z-challenge)
 - [Starter Pack](documents/starter-pack-openai-to-z-challenge.txt)
