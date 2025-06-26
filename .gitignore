@@ -1,0 +1,17 @@
+.env
+__pycache__/
+__documents__/
+Amazon_Basin_Archaeological_Discovery_Local.ipynb
+create_complete_notebook.py
+dynamic_summary_generator.py
+fix_analyze_multiple_tiles.py
+footprint_old_backup.json
+kaggle_integrated_notebook.ipynb
+multi_tile_fix.py
+openai_log.json
+*bak.ipynb
+*bak.py
+OpenAI*
+production_multi_tile_fix.py
+QUALITY_IMPROVEMENT_SUMMARY.ipynb
+test_*
